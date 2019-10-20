@@ -1,26 +1,47 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from "react";
+import "./App.css";
+import { APIURL_PLAYERS } from "./environment";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      players: [],
+      totalCount: 0
+    };
+  }
+
+  fetchPlayers = (search = "") => {
+    return fetch(APIURL_PLAYERS).then(res => res.json());
+  };
+  searchPlayers = (term = "") => {
+    if (term.length < 3) {
+      return;
+    }
+    this.fetchPlayers(term).then(res => {
+      console.log(this);
+      this.setState({
+        players: res,
+        totalCount: res.totalResults
+      });
+    });
+  };
+
+  componentDidMount() {
+    this.searchPlayers("buffon");
+  }
+  render() {
+    return (
+      <div className="App">
+        <h1>Players </h1>
+        <ul>
+          {this.state.players.map(player => (
+            <li key={player.id}>{player.title.rendered}</li>
+          ))}
+        </ul>
+      </div>
+    );
+  }
 }
 
 export default App;
