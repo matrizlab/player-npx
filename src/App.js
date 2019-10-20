@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import "./App.css";
+import PlayerList from "./components/player_list";
 import { APIURL_PLAYERS } from "./environment";
 
 class App extends Component {
@@ -32,13 +33,9 @@ class App extends Component {
   }
   render() {
     return (
-      <div className="App">
+      <div className="container">
         <h1>Players </h1>
-        <ul>
-          {this.state.players.map(player => (
-            <li key={player.id}>{player.title.rendered}</li>
-          ))}
-        </ul>
+        <PlayerList players={this.state.players} />
       </div>
     );
   }
