@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import "./App.css";
 import PlayerList from "./components/player_list";
+import NavBar from "./components/navbar";
 import { APIURL_PLAYERS } from "./environment";
 
 class App extends Component {
@@ -22,21 +23,23 @@ class App extends Component {
     this.fetchPlayers(term).then(res => {
       console.log(this);
       this.setState({
-        players: res,
-        totalCount: res.totalResults
+        players: res
       });
     });
   };
 
   componentDidMount() {
-    this.searchPlayers("buffon");
+    this.searchPlayers("Lorenzo");
   }
   render() {
     return (
-      <div className="container">
-        <h1>Players </h1>
-        <PlayerList players={this.state.players} />
-      </div>
+      <React.Fragment>
+        <NavBar onSearchTerm={this.searchPlayers} />
+        <div className="container">
+          <h1>Players </h1>
+          <PlayerList players={this.state.players} />
+        </div>
+      </React.Fragment>
     );
   }
 }

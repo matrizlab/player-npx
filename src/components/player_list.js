@@ -1,11 +1,15 @@
 import React from "react";
+import PlayerItem from "./player_item";
 
-export default function playerList(props) {
+export default function playerList({ players }) {
+  if (!players) {
+    return null;
+  }
   return (
-    <ul>
-      {props.players.map(player => (
-        <li key={player.id}>{player.title.rendered}</li>
+    <div className="row">
+      {players.map(player => (
+        <PlayerItem key={player.id} player={player} />
       ))}
-    </ul>
+    </div>
   );
 }
